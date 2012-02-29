@@ -24,7 +24,7 @@ https://github.com/chobie/php-sundown
 
 # Installation
 
-later.
+please see https://github.com/chobie/Git2RepositoryBrowserBundleSandbox
 
 # How Can I Contribute
 
