@@ -12,15 +12,15 @@
     {% for entry in tree %}
     <tr>
         {% if entry.isSubmodule() %}
-        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder_go.png"}) }}" />{{entry.name}}</td>
+        <td><img src="{{ asset("bundles/chobiegit2repositorybrowser/images/icons/folder_go.png") }}" />{{entry.name}}</td>
         <td></td>
         <td></td>
         {% elseif entry.isTree() %}
-        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree',{repository_name: repository_name, name: dirname ~ entry.name, refs: refs}) }}">{{ entry.name }}</a></td>
+        <td><img src="{{ asset("bundles/chobiegit2repositorybrowser/images/icons/folder.png") }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree',{repository_name: repository_name, name: dirname ~ entry.name, refs: refs}) }}">{{ entry.name }}</a></td>
         <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
         <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
         {% elseif entry.isBlob() %}
-        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "page_white_text.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_blob', {repository_name: repository_name,name: dirname ~ entry.name, refs: refs }) }}">{{entry.name}}</a></td>
+        <td><img src="{{ asset("bundles/chobiegit2repositorybrowser/images/icons/page_white_text.png") }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_blob', {repository_name: repository_name,name: dirname ~ entry.name, refs: refs }) }}">{{entry.name}}</a></td>
         <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
         <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
         {% endif %}

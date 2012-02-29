@@ -33,15 +33,6 @@ class DefaultController extends Controller
         ));
     }
 
-    public function iconAction($name)
-    {
-        $data = file_get_contents(__DIR__ . "/../Resources/public/images/icons/$name");
-
-        header("Content-type: image/png");
-        echo $data;
-        exit;
-    }
-
     public function blobAction($repository_name, $refs, $name)
     {
         $path = $this->getRepositoryPath($repository_name);

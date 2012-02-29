@@ -7,9 +7,6 @@ $collection = new RouteCollection();
 $collection->add('ChobieGit2RepositoryBrowserBundle_homepage', new Route('/', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:index',
 )));
-$collection->add('ChobieGit2RepositoryBrowserBundle_icon', new Route('/icon/{name}', array(
-    '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:icon',
-)));
 
 /* Tree */
 $collection->add('ChobieGit2RepositoryBrowserBundle_tree_index', new Route('/{repository_name}/tree/{refs}', array(
