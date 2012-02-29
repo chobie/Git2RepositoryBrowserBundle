@@ -1,6 +1,6 @@
 {% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
 {% block container %}
-<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name, refs: refs }) }}">{{ repository_name }}</a></h1>
 
 
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
@@ -16,11 +16,11 @@
         <td></td>
         <td></td>
         {% elseif entry.isTree() %}
-        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree',{repository_name: repository_name, name: dirname ~ entry.name}) }}">{{ entry.name }}</a></td>
+        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree',{repository_name: repository_name, name: dirname ~ entry.name, refs: refs}) }}">{{ entry.name }}</a></td>
         <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
         <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
         {% elseif entry.isBlob() %}
-        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "page_white_text.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_blob', {repository_name: repository_name,name: dirname ~ entry.name }) }}">{{entry.name}}</a></td>
+        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "page_white_text.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_blob', {repository_name: repository_name,name: dirname ~ entry.name, refs: refs }) }}">{{entry.name}}</a></td>
         <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
         <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
         {% endif %}

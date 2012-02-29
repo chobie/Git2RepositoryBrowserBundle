@@ -42,12 +42,15 @@ class DefaultController extends Controller
         exit;
     }
 
-    public function blobAction($repository_name, $name)
+    public function blobAction($repository_name, $refs, $name)
     {
         $path = $this->getRepositoryPath($repository_name);
+        if ($refs != "HEAD") {
+            $refs = "refs/heads/{$refs}";
+        }
 
         $repo = new \Git2\Repository($path);
-        $ref = \Git2\Reference::lookup($repo, "HEAD");
+        $ref = \Git2\Reference::lookup($repo, $refs);
         $ref = $ref->resolve();
         $commit = $repo->lookup($ref->getTarget());
 
@@ -123,17 +126,22 @@ class DefaultController extends Controller
             'meta' => $meta,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => basename($refs),
         ));
     }
 
-    public function treeindexAction($repository_name)
+    public function treeindexAction($repository_name, $refs)
     {
-        $name = "Chobien";
         $path  = $this->getRepositoryPath($repository_name);
 
+        if ($refs != "HEAD") {
+            $refs = "refs/heads/{$refs}";
+        }
+
         $repo = new \Git2\Repository($path);
-        $ref = \Git2\Reference::lookup($repo, "HEAD");
+        $ref = \Git2\Reference::lookup($repo, $refs);
         $ref = $ref->resolve();
+        $refs = $ref->getBaseName();
 
         $commit = $repo->lookup($ref->getTarget());
         $tree = $commit->getTree();
@@ -153,7 +161,6 @@ class DefaultController extends Controller
 
 
         return $this->render('ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig', array(
-            'name' => $name,
             'tree' => $commit->getTree(),
             'dirname' => '',
             'repository_name' => $repository_name,
@@ -162,6 +169,7 @@ class DefaultController extends Controller
             'meta' => $meta,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => $refs,
         ));
     }
 
@@ -179,16 +187,19 @@ class DefaultController extends Controller
         }));
     }
 
-    public function treeAction($repository_name, $name)
+    public function treeAction($repository_name, $refs, $name)
     {
         $path = $this->getRepositoryPath($repository_name);
 
+        $absolute_refs = "refs/heads/" . $refs;
+
         $repo = new \Git2\Repository($path);
-        $ref = \Git2\Reference::lookup($repo, "HEAD");
+        $ref = \Git2\Reference::lookup($repo, $absolute_refs);
         $ref = $ref->resolve();
 
         $commit = $repo->lookup($ref->getTarget());
         $tree = $commit->getTree();
+
         $tree = $tree->getSubTree($name);
 
         $dirname = $name . "/";
@@ -208,7 +219,6 @@ class DefaultController extends Controller
             $data = $sd->toHtml();
         }
 
-
         return $this->render('ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig', array(
             'name' => $name,
             'tree' => $tree,
@@ -219,6 +229,7 @@ class DefaultController extends Controller
             'meta' => $meta,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => $refs,
         ));
 
     }
@@ -238,12 +249,16 @@ class DefaultController extends Controller
         return new \Git2\Repository($this->getRepositoryPath($name));
     }
 
-    public function commitsAction($repository_name)
+    public function commitsAction($repository_name, $refs)
     {
         $repo = $this->getRepository($repository_name);
 
+        if ($refs != "HEAD") {
+            $refs = "refs/heads/{$refs}";
+        }
+
         try {
-            $ref = \Git2\Reference::lookup($repo, "HEAD");
+            $ref = \Git2\Reference::lookup($repo, $refs);
             $ref = $ref->resolve();
             $commit = $repo->lookup($ref->getTarget());
 
@@ -268,6 +283,7 @@ class DefaultController extends Controller
             'commit' => null,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => basename($refs),
         ));
     }
 
@@ -287,6 +303,7 @@ class DefaultController extends Controller
             'diff' => $struct,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs'  => "HEAD",
         ));
     }
 
@@ -299,6 +316,7 @@ class DefaultController extends Controller
             'branches' => \Git2\Reference::each($repo,0,function($name){return preg_match("!refs/heads!",$name);}),
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => "HEAD",
         ));
     }
 
@@ -324,6 +342,7 @@ class DefaultController extends Controller
             'tags' => $tags,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => "HEAD",
         ));
     }
 
@@ -341,6 +360,7 @@ class DefaultController extends Controller
             'blame' => $blame,
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
+            'refs' => "HEAD",
         ));
     }
 

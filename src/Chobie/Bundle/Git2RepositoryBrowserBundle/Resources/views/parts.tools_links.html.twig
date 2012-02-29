@@ -1,7 +1,7 @@
 
 <ul class="nav nav-tabs">
     <li class="active"><a href="#">source</a></li>
-    <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_commits', { repository_name : repository_name}) }}">commits</a></li>
+    <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_commits', { repository_name : repository_name, refs: refs}) }}">commits</a></li>
     <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_branches', { repository_name: repository_name}) }}">branches ({{ branch_count }})</a></li>
     <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tags', {repository_name: repository_name}) }}">tags ({{ tags_count }})</a></li>
 </ul>

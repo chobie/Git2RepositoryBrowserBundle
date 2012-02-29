@@ -1,13 +1,13 @@
 {% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
 {% block container %}
 
-<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name, refs: refs }) }}">{{ repository_name }}</a></h1>
 
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
 
 <ul>
 {% for branch in branches %}
-        <li><a href="">{{ branch.getName }}</a></li>
+        <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index', {repository_name: repository_name, refs: branch.getBaseName }) }}">{{ branch.getName }}</a></li>
 {% endfor %}
 </ul>
 {% endblock %}

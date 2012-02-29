@@ -12,25 +12,25 @@ $collection->add('ChobieGit2RepositoryBrowserBundle_icon', new Route('/icon/{nam
 )));
 
 /* Tree */
-$collection->add('ChobieGit2RepositoryBrowserBundle_tree_index', new Route('/{repository_name}/', array(
+$collection->add('ChobieGit2RepositoryBrowserBundle_tree_index', new Route('/{repository_name}/tree/{refs}', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:treeindex',
 )));
 
-$route = new Route('/{repository_name}/tree/{name}', array(
+$route = new Route('/{repository_name}/tree/{refs}/{name}', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:tree'
 ));
 $route->setRequirement("name",".+");
 $collection->add('ChobieGit2RepositoryBrowserBundle_tree',$route);
 
 /* Blob */
-$route = new Route('/{repository_name}/blob/{name}', array(
+$route = new Route('/{repository_name}/blob/{refs}/{name}', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:blob'
 ));
 $route->setRequirement("name",".+");
 $collection->add('ChobieGit2RepositoryBrowserBundle_blob',$route);
 
 /* Commit */
-$route = new Route('/{repository_name}/commits', array(
+$route = new Route('/{repository_name}/commits/{refs}', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:commits'
 ));
 $collection->add('ChobieGit2RepositoryBrowserBundle_commits',$route);

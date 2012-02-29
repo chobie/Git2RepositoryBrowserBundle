@@ -1,6 +1,6 @@
 {% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
 {% block container %}
-<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name, refs: refs }) }}">{{ repository_name }}</a></h1>
 
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
 
