@@ -110,8 +110,11 @@ class DefaultController extends Controller
             $meta[$entry->name] = $repo->lookup($commit_id);
         }
 
+        $template = (isset($_REQUEST['_pjax'])) ?
+            'ChobieGit2RepositoryBrowserBundle:Default:pjax.blob.html.twig':
+            'ChobieGit2RepositoryBrowserBundle:Default:blob.html.twig';
 
-        return $this->render('ChobieGit2RepositoryBrowserBundle:Default:blob.html.twig', array(
+        return $this->render($template, array(
             'name' => $name,
             'tree' => $tree,
             'dirname' => $dirname,
@@ -157,8 +160,12 @@ class DefaultController extends Controller
             $meta[$entry->name] = $repo->lookup($commit_id);
         }
 
+        $template = (isset($_REQUEST['_pjax'])) ?
+            'ChobieGit2RepositoryBrowserBundle:Default:pjax.tree.html.twig':
+            'ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig';
 
-        return $this->render('ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig', array(
+
+        return $this->render($template, array(
             'tree' => $commit->getTree(),
             'dirname' => '',
             'repository_name' => $repository_name,
@@ -218,7 +225,11 @@ class DefaultController extends Controller
             $data = $sd->toHtml();
         }
 
-        return $this->render('ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig', array(
+        $template = (isset($_REQUEST['_pjax'])) ?
+            'ChobieGit2RepositoryBrowserBundle:Default:pjax.tree.html.twig':
+            'ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig';
+
+        return $this->render($template, array(
             'name' => $name,
             'tree' => $tree,
             'dirname' => $dirname,

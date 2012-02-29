@@ -18,6 +18,19 @@
     %}
     <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
     {% endstylesheets %}
+    <script type="text/javascript" src="{{ asset("bundles/chobiegit2repositorybrowser/js/jquery-1.7.1.js") }}"></script>
+    <script type="text/javascript" src="{{ asset("bundles/chobiegit2repositorybrowser/js/jquery.pjax.js") }}"></script>
+    <script type="text/javascript">
+        $(function(){
+            $('a[data-pjax]').pjax()
+            $('#main')
+                    .bind('pjax:start', function() {
+
+                    })
+                    .bind('pjax:end',   function() {
+                    })
+        });
+    </script>
 </head>
 
 <body>

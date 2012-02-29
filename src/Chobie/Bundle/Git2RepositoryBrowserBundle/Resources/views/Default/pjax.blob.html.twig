@@ -1,0 +1,5 @@
+{% include "ChobieGit2RepositoryBrowserBundle::parts.tree.html.twig" %}
+<div style="text-align:right">
+    <a href="{{ path("ChobieGit2RepositoryBrowserBundle_blame", {repository_name: repository_name, name: name}) }}">blame</a>
+</div>
+<pre>{{ data | raw }}</pre>
