@@ -1,0 +1,30 @@
+{% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
+{% block container %}
+
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+
+{% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
+
+<table>
+    {% for group in blame.getGroups() %}
+    {% set hasShown = 0 %}
+    {% set commit = blame.getCommit(group.getCommitId()) %}
+    {% for line in group.getLines() %}
+    <tr>
+        <td style="font-size:10px;background-color:#F8F8F8">
+            {% if hasShown == 0 %}
+            <div><a href="{{ path('ChobieGit2RepositoryBrowserBundle_commit', {repository_name: repository_name, commit_id: group.getCommitId() }) }}">{{group.getCommitId()}}</a></div>
+            <div>{{ commit.get('summary') }}</div>
+            <div>{{ commit.get('author') }}</div>
+            {% set hasShown = 1%}
+            {% endif %}
+        </td>
+        <td>{{ line.getLineNumber() }}</td>
+        <td>
+            <div style="white-space:pre;">{{ line }}</div>
+        </td>
+    </tr>
+    {% endfor %}
+    {% endfor %}
+</table>
+{% endblock %}

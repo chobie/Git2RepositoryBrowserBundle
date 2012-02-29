@@ -18,7 +18,13 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('chobie_git2_repository_browser');
+        $rootNode = $treeBuilder->root('chobie_bark');
+
+        $rootNode
+            ->children()
+            ->scalarNode('repository_path')->defaultValue('/tmp/repos')
+            ->end();
+
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

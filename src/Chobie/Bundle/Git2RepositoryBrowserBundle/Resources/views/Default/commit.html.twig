@@ -1,0 +1,76 @@
+{% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
+{% block container %}
+
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+
+{% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
+
+
+<div>
+parent:
+    {% for c in commit.getParents %}
+        <div><a href="{{ path("ChobieGit2RepositoryBrowserBundle_commit", {repository_name: repository_name, commit_id: c.getOid}) }}">{{ c.getOid }}</a></div>
+    {% endfor %}
+</div>
+
+
+{% for file in diff.getFiles() %}
+<div style="width:915px;overflow:auto">
+    <table class="diff">
+        <tr>
+            <th style="text-align:left" colspan="3">{{file.getName()}}</th>
+        </tr>
+        {% for hunk in file.getHunks() %}
+        <tr>
+            <td style="min-width:3em;max-width:3em;width:3em;">...</td>
+            <td style="min-width:3em;max-width:3em;width:3em;">...</td>
+            <td><div style="background:#CCC;text-align:left;">{{hunk.getSummary()}}</div></td>
+        </tr>
+
+        {% set lines = hunk.getLines() %}
+        {% for line in lines %}
+        <tr>
+            <td>{{line.getOldNumber()}}</td>
+            <td>{{line.getNewNumber()}}</td>
+            <td class="code" style="{% if line.isRemoved()%}background-color:#FFDDDD{% elseif line.isAdded()%}background-color:#D7FFDF{% else %}background-color:#F8F8FF{% endif %}">
+                <div style="white-space:pre;font-family:'Bitstream Vera Sans Mono','Courier',monospace;">{% spaceless %}
+
+                    {%if line.isRemoved() %}
+                    {% if lines.hasNext() %}
+                    {% set next = lines.getNext() %}
+                    {% if next.isAdded() %}
+                    {% set diff = line.diff(next) %}
+                    <span>{{diff.prefix}}<span style="background-color:#FFA9AA">{{diff.unique}}</span>{{diff.suffix}}</span>
+                    {% else %}
+                    <span>{{line.getLine()}}</span>
+                    {% endif %}
+                    {% else %}
+                    <span>{{line.getLine()}}</span>
+                    {% endif %}
+                    {% elseif line.isAdded() %}
+                    {% if lines.hasPrevious() %}
+                    {% set previous = lines.getPrevious() %}
+                    {% if previous.isRemoved() %}
+                    {% set diff = line.diff(previous) %}
+                    <span>{{diff.prefix}}<span style="background-color:#97FFB1">{{diff.unique}}</span>{{diff.suffix}}</span>
+                    {% else %}
+                    <span>{{line.getLine()}}</span>
+                    {% endif %}
+                    {% else %}
+                    <span>{{line.getLine()}}</span>
+                    {% endif %}
+                    {% else %}
+                    <span>{{line.getLine()}}</span>
+                    {% endif %}
+
+                    {% endspaceless %}</div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endfor %}
+
+    </table>
+</div>
+{% endfor %}
+{% endblock %}
+                                                         

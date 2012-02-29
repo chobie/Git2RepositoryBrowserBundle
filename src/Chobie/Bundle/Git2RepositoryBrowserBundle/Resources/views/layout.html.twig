@@ -1,0 +1,59 @@
+<html xmlns="http://www.w3.org/1999/html">
+<head>
+
+
+    <style type="text/css">
+        body {
+            padding-top: 60px;
+            padding-bottom: 40px;
+        }
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    {% stylesheets filter='cssrewrite,?yui_css'
+        '@ChobieGit2RepositoryBrowserBundle/Resources/public/css/bootstrap.css'
+        '@ChobieGit2RepositoryBrowserBundle/Resources/public/css/pygments.css'
+        '@ChobieGit2RepositoryBrowserBundle/Resources/public/css/default.css'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+    {% endstylesheets %}
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </a>
+            <a class="brand" href="{{ path('ChobieGit2RepositoryBrowserBundle_homepage')}}">Chobie\Git2RepositoryBrowserBundle</a>
+            <div class="nav-collapse">
+                <ul class="nav">
+                    <li class="active"><a href="#">Home</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </div>
+</div>
+
+<div class="container">
+{% block container %}
+{% endblock %}
+
+    <!-- Example row of columns -->
+    <div class="row">
+    </div>
+
+    <hr>
+
+    <footer>
+        <p>&copy; <a href="https://github.com/chobie">chobie</a> all rights reserved 2012</p>
+    </footer>
+</div> <!-- /container -->
+
+</body>
+</html>

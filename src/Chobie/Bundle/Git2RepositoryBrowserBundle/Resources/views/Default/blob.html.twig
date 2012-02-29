@@ -1,0 +1,35 @@
+{% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
+{% block container %}
+<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name }) }}">{{ repository_name }}</a></h1>
+
+
+{% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
+
+<table class="zebra-striped">
+    <tr>
+        <th>name</th><th>age</th><th>message</th>
+    </tr>
+    {% for entry in tree %}
+    <tr>
+        {% if entry.isSubmodule() %}
+        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder_go.png"}) }}" />{{entry.name}}</td>
+        <td></td>
+        <td></td>
+        {% elseif entry.isTree() %}
+        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "folder.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree',{repository_name: repository_name, name: dirname ~ entry.name}) }}">{{ entry.name }}</a></td>
+        <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
+        <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
+        {% elseif entry.isBlob() %}
+        <td><img src="{{ path('ChobieGit2RepositoryBrowserBundle_icon', {name: "page_white_text.png"}) }}" /><a href="{{ path('ChobieGit2RepositoryBrowserBundle_blob', {repository_name: repository_name,name: dirname ~ entry.name }) }}">{{entry.name}}</a></td>
+        <td>{{ meta[entry.name].getAuthor().time.format('Y-m-d H:i:s') }}</td>
+        <td>{{ meta[entry.name].getMessage() | truncate(70) }}</td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+</table>
+
+<div style="text-align:right">
+    <a href="{{ path("ChobieGit2RepositoryBrowserBundle_blame", {repository_name: repository_name, name: name}) }}">blame</a>
+</div>
+<pre>{{ data | raw }}</pre>
+{% endblock %}
