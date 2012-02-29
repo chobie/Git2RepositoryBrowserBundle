@@ -1,6 +1,6 @@
 {% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
 {% block container %}
-<h1>Welcome to Chobie Bark</h1>
+<h1>Welcome to Chobie Git2RepositoryBundle</h1>
 
 {% for entry in repositories %}
 <div><a href="{{ path("ChobieGit2RepositoryBrowserBundle_tree_index", {repository_name: entry.name, refs: entry.refs}) }}">{{ entry.name }}</a></div>
