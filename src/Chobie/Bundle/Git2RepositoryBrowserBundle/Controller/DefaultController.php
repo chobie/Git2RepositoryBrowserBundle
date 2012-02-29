@@ -249,9 +249,18 @@ class DefaultController extends Controller
         return new \Git2\Repository($this->getRepositoryPath($name));
     }
 
+    /**
+     * show commit logs
+     *
+     * @param $repository_name
+     * @param $refs
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function commitsAction($repository_name, $refs)
     {
         $repo = $this->getRepository($repository_name);
+        $request = $this->getRequest();
+        $next = null;
 
         if ($refs != "HEAD") {
             $refs = "refs/heads/{$refs}";
@@ -263,16 +272,20 @@ class DefaultController extends Controller
             $commit = $repo->lookup($ref->getTarget());
 
             $walker = new Git2\Walker($repo);
-            $walker->push($commit->getOId());
 
-            $i=0;
+            $oid = $request->query->getAlnum('next') ? $request->query->getAlnum('next') : $commit->getOId();
+            $walker->push($oid);
+
+            $i= 0 ;
             $commits = array();
             foreach($walker as $tmp) {
-                if ($i>20) break;
+                if ($i>21) break;
 
                 $commits[] = $tmp;
                 $i++;
             }
+            $next = array_pop($commits);
+            $next = $next->getOid();
         } catch (\InvalidArgumentException $e) {
             $commits = array();
         }
@@ -285,6 +298,7 @@ class DefaultController extends Controller
             'tags_count' => $this->getTagsCount($repo),
             'refs' => basename($refs),
             'active' => 'commit',
+            'next' => $next
         ));
     }
 
