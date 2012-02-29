@@ -25,7 +25,13 @@ class DefaultController extends Controller
         $entries = array();
         foreach($itr as $entry) {
             /* @var \Symfony\Component\Finder\SplFileInfo $entry */
-            $entries[] = $entry->getFilename();
+            $repo = $this->getRepository($entry->getFileName());
+            $ref = $this->getDefaultReference($repo);
+
+            $entries[] = array(
+                "name" => $entry->getFilename(),
+                "refs" => $ref->getBaseName(),
+            );
         }
 
         return $this->render('ChobieGit2RepositoryBrowserBundle:Default:index.html.twig', array(
@@ -353,6 +359,33 @@ class DefaultController extends Controller
             'tags_count' => $this->getTagsCount($repo),
             'refs' => "HEAD",
         ));
+    }
+
+
+    /**
+     * @param $repository
+     * @return \Git2\Reference
+     */
+    public function getDefaultReference($repository)
+    {
+        $ref = \Git2\Reference::lookup($repository, "HEAD");
+        $ref = $ref->resolve();
+        return $ref;
+    }
+
+    public function normalizeReference($repository, $refname)
+    {
+        $array = \Git2\Reference::each($repository,null,function($name) use ($refname) {
+            return preg_match("/{$refname}/",$name);
+        });
+        if (count($array)) {
+            $ref = array_shift($array);
+            if ($ref) {
+                return $ref->getName();
+            }
+        }
+
+        return false;
     }
 
 }
