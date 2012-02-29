@@ -6,8 +6,8 @@
     <li {% if active == "tags" %}class="active"{% endif %}><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tags', {repository_name: repository_name}) }}">tags ({{ tags_count }})</a></li>
 </ul>
 
-<div>
-    HTTP<input type="text" value="http://localhost:8081/{{ repository_name }}.git" />
+<div style="margin:0.5em;">
+    <input type="button" class="btn" value="HTTP" /><input type="text" class="input-xlarge" value="http://localhost:8081/{{ repository_name }}.git" />
 </div>
 
 {% if commit %}
