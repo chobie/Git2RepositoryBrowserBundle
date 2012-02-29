@@ -124,6 +124,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => basename($refs),
+            'active' => 'source',
         ));
     }
 
@@ -167,6 +168,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => $refs,
+            'active' => 'source',
         ));
     }
 
@@ -227,6 +229,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => $refs,
+            'active' => 'source',
         ));
 
     }
@@ -281,6 +284,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => basename($refs),
+            'active' => 'commit',
         ));
     }
 
@@ -301,6 +305,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs'  => "HEAD",
+            'active' => 'commit',
         ));
     }
 
@@ -314,6 +319,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => "HEAD",
+            'active' => 'branches',
         ));
     }
 
@@ -340,6 +346,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => "HEAD",
+            'active' => 'tags',
         ));
     }
 
@@ -358,6 +365,7 @@ class DefaultController extends Controller
             'branch_count' => $this->getBranchCount($repo),
             'tags_count' => $this->getTagsCount($repo),
             'refs' => "HEAD",
+            'active' => 'source',
         ));
     }
 
