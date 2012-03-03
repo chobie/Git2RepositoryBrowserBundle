@@ -110,7 +110,7 @@ class DefaultController extends Controller
 
         $meta = array();
         foreach ($tree as $entry) {
-            $commit_id = trim(`GIT_DIR={$path} git log --format=%H -n1 -- {$dirname}{$entry->name}`);
+            $commit_id = trim(`GIT_DIR={$path} git log {$ref->getName()} --format=%H -n1 -- {$dirname}{$entry->name}`);
             $meta[$entry->name] = $repo->lookup($commit_id);
         }
 
@@ -166,7 +166,7 @@ class DefaultController extends Controller
         }
         $meta = array();
         foreach ($tree as $entry) {
-            $commit_id = trim(`GIT_DIR={$path} git log --format=%H -n1 -- {$entry->name}`);
+            $commit_id = trim(`GIT_DIR={$path} git log {$ref->getName()} --format=%H -n1 -- {$entry->name}`);
             $meta[$entry->name] = $repo->lookup($commit_id);
         }
 
@@ -225,7 +225,7 @@ class DefaultController extends Controller
 
         $meta = array();
         foreach ($tree as $entry) {
-            $commit_id = trim(`GIT_DIR={$path} git log --format=%H -n1 -- {$dirname}{$entry->name}`);
+            $commit_id = trim(`GIT_DIR={$path} git log {$ref->getName()} --format=%H -n1 -- {$dirname}{$entry->name}`);
             $meta[$entry->name] = $repo->lookup($commit_id);
         }
 
