@@ -7,7 +7,7 @@
 
 <ul>
     {% for tag in tags %}
-    <li><a href="">{{ tag.getName }}</a></li>
+    <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index', {repository_name: repository_name, refs: tag.getBaseName }) }}">{{ tag.getName }}</a></li>
     {% endfor %}
 </ul>
 {% endblock %}

@@ -42,14 +42,18 @@ class DefaultController extends Controller
     public function blobAction($repository_name, $refs, $name)
     {
         $path = $this->getRepositoryPath($repository_name);
-        if ($refs != "HEAD") {
-            $refs = "refs/heads/{$refs}";
-        }
 
         $repo = new \Git2\Repository($path);
+        if ($refs != "HEAD") {
+            $refs = $this->normalizeReference($repo,$refs);
+        }
+
         $ref = \Git2\Reference::lookup($repo, $refs);
         $ref = $ref->resolve();
         $commit = $repo->lookup($ref->getTarget());
+        if ($commit instanceof Git2\Tag) {
+            $commit = $commit->getTarget();
+        }
 
         $tree = $commit->getTree();
         $basename = basename($name);
@@ -135,16 +139,22 @@ class DefaultController extends Controller
     {
         $path  = $this->getRepositoryPath($repository_name);
 
-        if ($refs != "HEAD") {
-            $refs = "refs/heads/{$refs}";
-        }
 
         $repo = new \Git2\Repository($path);
+        if ($refs != "HEAD") {
+            $refs = $this->normalizeReference($repo,$refs);
+        }
+
         $ref = \Git2\Reference::lookup($repo, $refs);
+
         $ref = $ref->resolve();
         $refs = $ref->getBaseName();
 
         $commit = $repo->lookup($ref->getTarget());
+        if ($commit instanceof Git2\Tag) {
+            $commit = $commit->getTarget();
+        }
+
         $tree = $commit->getTree();
         $entry = $tree->getEntryByName("README.md");
 
@@ -197,13 +207,16 @@ class DefaultController extends Controller
     {
         $path = $this->getRepositoryPath($repository_name);
 
-        $absolute_refs = "refs/heads/" . $refs;
-
         $repo = new \Git2\Repository($path);
+        $absolute_refs = $this->normalizeReference($repo,$refs);
+
         $ref = \Git2\Reference::lookup($repo, $absolute_refs);
         $ref = $ref->resolve();
 
         $commit = $repo->lookup($ref->getTarget());
+        if ($commit instanceof Git2\Tag) {
+            $commit = $commit->getTarget();
+        }
         $tree = $commit->getTree();
 
         $tree = $tree->getSubTree($name);
@@ -274,13 +287,16 @@ class DefaultController extends Controller
         $next = null;
 
         if ($refs != "HEAD") {
-            $refs = "refs/heads/{$refs}";
+            $refs = $this->normalizeReference($repo,$refs);
         }
 
         try {
             $ref = \Git2\Reference::lookup($repo, $refs);
             $ref = $ref->resolve();
             $commit = $repo->lookup($ref->getTarget());
+            if ($commit instanceof Git2\Tag) {
+                $commit = $commit->getTarget();
+            }
 
             $walker = new Git2\Walker($repo);
 
