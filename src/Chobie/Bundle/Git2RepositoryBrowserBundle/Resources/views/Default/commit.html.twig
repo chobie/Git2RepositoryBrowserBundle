@@ -5,15 +5,6 @@
 
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
 
-
-<div>
-parent:
-    {% for c in commit.getParents %}
-        <div><a href="{{ path("ChobieGit2RepositoryBrowserBundle_commit", {repository_name: repository_name, commit_id: c.getOid}) }}">{{ c.getOid }}</a></div>
-    {% endfor %}
-</div>
-
-
 {% for file in diff.getFiles() %}
 <div style="width:915px;overflow:auto">
     <table class="diff">

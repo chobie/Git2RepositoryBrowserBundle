@@ -319,7 +319,18 @@ class DefaultController extends Controller
 
         $n_commit  = escapeshellarg($commit_id);
         $repository_path = $this->getRepositoryPath($repository_name);
-        $stat = `GIT_DIR={$repository_path} git log -p {$n_commit} -n1`;
+        $commit = $repo->lookup($commit_id);
+        $stat = $n_commit;
+        if ($commit->getParentCount() > 1) {
+            $stat = array();
+            foreach($commit->getParents() as $parent) {
+                $stat[] = $parent->getOid();
+            }
+            $stat = escapeshellarg(join("..",$stat));
+
+        }
+
+        $stat = `GIT_DIR={$repository_path} git log -p {$stat} -n1`;
         $struct = Diff\Parser::parse($stat);
 
         $commit = $repo->lookup($commit_id);
