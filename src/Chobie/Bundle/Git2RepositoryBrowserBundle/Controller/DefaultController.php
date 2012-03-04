@@ -133,6 +133,7 @@ class DefaultController extends Controller
             'refs' => basename($refs),
             'active' => 'source',
             'is_image' => $img,
+            'parts' => $this->getPartsWithName($repository_name, $name),
         ));
     }
 
@@ -247,6 +248,7 @@ class DefaultController extends Controller
             'tags_count' => $this->getTagsCount($repo),
             'refs' => $refs,
             'active' => 'source',
+            'parts' => $this->getPartsWithName($repository_name,""),
         ));
     }
 
@@ -303,6 +305,7 @@ class DefaultController extends Controller
             'ChobieGit2RepositoryBrowserBundle:Default:pjax.tree.html.twig':
             'ChobieGit2RepositoryBrowserBundle:Default:tree.html.twig';
 
+
         return $this->render($template, array(
             'name' => $name,
             'tree' => $tree,
@@ -315,10 +318,30 @@ class DefaultController extends Controller
             'tags_count' => $this->getTagsCount($repo),
             'refs' => $refs,
             'active' => 'source',
+            'parts' => $this->getPartsWithName($repository_name, $name),
         ));
 
     }
 
+    protected function getPartsWithName($repository_name, $name)
+    {
+        $parts = array(array(
+            "name" => pathinfo($repository_name,\PATHINFO_FILENAME),
+            "path" => "",
+        ));
+
+        $stack = array();
+        foreach (explode("/", $name) as $part) {
+            $stack[] = $part;
+            $parts[] = array(
+                "name" => $part,
+                "path" => join("/", $stack),
+            );
+        }
+
+
+        return $parts;
+    }
 
     protected function getRepositoryPath($name)
     {
