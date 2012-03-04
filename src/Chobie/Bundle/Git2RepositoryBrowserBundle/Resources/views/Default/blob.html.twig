@@ -10,5 +10,9 @@
 <div style="text-align:right">
     <a href="{{ path("ChobieGit2RepositoryBrowserBundle_blame", {repository_name: repository_name, name: name}) }}">blame</a>
 </div>
+{% if is_image %}
+<img src="{{ path("ChobieGit2RepositoryBrowserBundle_raw", {repository_name: repository_name, name: name, refs:refs}) }}" />
+{% else %}
 <pre>{{ data | raw }}</pre>
+{% endif %}
 {% endblock %}

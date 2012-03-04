@@ -33,7 +33,7 @@ class ChobieGit2RepositoryBrowserBundleExtension extends \Twig_Extension
 
     public function markdown($string)
     {
-        $sd = new \Sundown\Markdown(new AlbinoWithHtml(), array("fenced_code_blocks"=>true));
+        $sd = new \Sundown\Markdown(new AlbinoWithHtml(array('autolink'=>true)), array("fenced_code_blocks"=>true));
         return $sd->render($string);
     }
 

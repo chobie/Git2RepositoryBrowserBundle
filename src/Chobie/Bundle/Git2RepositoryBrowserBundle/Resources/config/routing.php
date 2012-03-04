@@ -26,6 +26,14 @@ $route = new Route('/{repository_name}/blob/{refs}/{name}', array(
 $route->setRequirement("name",".+");
 $collection->add('ChobieGit2RepositoryBrowserBundle_blob',$route);
 
+/* Raw */
+$route = new Route('/{repository_name}/raw/{refs}/{name}', array(
+    '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:raw'
+));
+$route->setRequirement("name",".+");
+$collection->add('ChobieGit2RepositoryBrowserBundle_raw',$route);
+
+
 /* Commit */
 $route = new Route('/{repository_name}/commits/{refs}', array(
     '_controller' => 'ChobieGit2RepositoryBrowserBundle:Default:commits'

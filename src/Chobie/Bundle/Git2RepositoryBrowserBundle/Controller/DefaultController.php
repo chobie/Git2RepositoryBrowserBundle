@@ -83,8 +83,8 @@ class DefaultController extends Controller
                 break;
             case 'mardkwon':
             case 'md':
-                $sd = new \Sundown($blob->getContent());
-                $data = $sd->to_html();
+                $sd = new \Sundown\Markdown(new \Sundown\Render\HTML(array('autolink'=>true)), array('fenced_code_blocks'=>true));
+                $data = $sd->render($blob->getContent());
                 break;
             default:
                 if ($ext == "htm"){
@@ -132,6 +132,64 @@ class DefaultController extends Controller
             'tags_count' => $this->getTagsCount($repo),
             'refs' => basename($refs),
             'active' => 'source',
+            'is_image' => $img,
+        ));
+    }
+
+    public function rawAction($repository_name, $refs, $name)
+    {
+        $path = $this->getRepositoryPath($repository_name);
+
+        $repo = new \Git2\Repository($path);
+        if ($refs != "HEAD") {
+            $refs = $this->normalizeReference($repo,$refs);
+        }
+
+        $ref = \Git2\Reference::lookup($repo, $refs);
+        $ref = $ref->resolve();
+        $commit = $repo->lookup($ref->getTarget());
+        if ($commit instanceof Git2\Tag) {
+            $commit = $commit->getTarget();
+        }
+
+        $tree = $commit->getTree();
+        $basename = basename($name);
+        $dirname = ltrim(dirname($name) . "/" ,"./");
+
+
+        if ($dirname != "") {
+            $tree = $tree->getSubTree($dirname);
+        }
+
+        foreach ($tree as $entry) {
+            if($entry->name == $basename) {
+                break;
+            }
+        }
+
+        $blob = $repo->lookup($entry->oid);
+        $ext = pathinfo($entry->name,\PATHINFO_EXTENSION);
+
+        switch ($ext) {
+            case ".swf":
+                $content_type = "application/x-shockwave-flash";
+                break;
+            case ".gif":
+                $content_type = "image/jpeg";
+                break;
+            case ".jpeg":
+            case ".jpg":
+                $content_type = "image/jpeg";
+                break;
+            case ".png":
+                $content_type = "image/png";
+                break;
+            default:
+                $content_type = "text/plain";
+        }
+
+        return new \Symfony\Component\HttpFoundation\Response($blob->getContent(),200,array(
+            "Content-type" => $content_type
         ));
     }
 
@@ -161,8 +219,11 @@ class DefaultController extends Controller
         $data = '';
         if ($entry) {
             $blob = $repo->lookup($entry->oid);
-            $sd = new \Sundown($blob->getContent());
-            $data = $sd->toHtml();
+            $sd = new \Sundown\Markdown(new \Sundown\Render\HTML(), array(
+                'fenced_code_blocks'=>true,
+                'autolink'=>true
+            ));
+            $data = $sd->render($blob->getContent());
         }
         $meta = array();
         foreach ($tree as $entry) {
