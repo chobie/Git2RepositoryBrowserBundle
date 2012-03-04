@@ -83,7 +83,10 @@ class DefaultController extends Controller
                 break;
             case 'mardkwon':
             case 'md':
-                $sd = new \Sundown\Markdown(new \Sundown\Render\HTML(array('autolink'=>true)), array('fenced_code_blocks'=>true));
+                $sd = new \Sundown\Markdown(new \Sundown\Render\HTML(), array(
+                    'fenced_code_blocks' => true,
+                    'autolink' => true,
+                ));
                 $data = $sd->render($blob->getContent());
                 break;
             default:
