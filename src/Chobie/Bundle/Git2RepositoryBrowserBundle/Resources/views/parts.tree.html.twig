@@ -1,13 +1,3 @@
-<ul class="breadcrumb">
-    {% for part in parts %}
-    {% if loop.last == false %}
-    <li><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree', {repository_name: repository_name, name: part.path, refs: refs}) }}" data-pjax="#main">{{part.name}}</a> <span class="divider">/</span></li>
-    {% else %}
-    <li><b>{{part.name}}</b></li>
-    {% endif %}
-    {% endfor %}
-</ul>
-
 <table class="table table-striped">
     <tr>
         <th>name</th><th>age</th><th>message</th>

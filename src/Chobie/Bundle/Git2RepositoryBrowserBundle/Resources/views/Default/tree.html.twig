@@ -6,7 +6,8 @@
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
 
 <div id="main">
-{% include "ChobieGit2RepositoryBrowserBundle::parts.tree.html.twig" %}
+    {% include "ChobieGit2RepositoryBrowserBundle::parts.breadcrumbs.html.twig" %}
+    {% include "ChobieGit2RepositoryBrowserBundle::parts.tree.html.twig" %}
 
 {% if data %}
 <pre>{{ data | raw }}</pre>
