@@ -4,6 +4,7 @@
 
 
 {% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
+{% include "ChobieGit2RepositoryBrowserBundle::parts.commit_info.html.twig" with {'show_parents':false} %}
 
 <div id="main">
     {% include "ChobieGit2RepositoryBrowserBundle::parts.breadcrumbs.html.twig" %}

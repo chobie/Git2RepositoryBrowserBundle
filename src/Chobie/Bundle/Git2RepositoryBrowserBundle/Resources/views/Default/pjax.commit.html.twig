@@ -1,14 +1,6 @@
-{% extends 'ChobieGit2RepositoryBrowserBundle::layout.html.twig' %}
-{% block container %}
-
-<h1><a href="{{ path('ChobieGit2RepositoryBrowserBundle_tree_index',{ repository_name: repository_name, refs: refs }) }}">{{ repository_name }}</a></h1>
-
-{% include "ChobieGit2RepositoryBrowserBundle::parts.tools_links.html.twig" %}
-
-<div id="main">
 {% include "ChobieGit2RepositoryBrowserBundle::parts.commit_info.html.twig" with {'show_parents':true} %}
 
-    {% for file in diff.getFiles() %}
+{% for file in diff.getFiles() %}
 <div style="width:915px;overflow:auto">
     <table class="diff">
         <tr>
@@ -66,5 +58,3 @@
     </table>
 </div>
 {% endfor %}
-</div>
-{% endblock %}

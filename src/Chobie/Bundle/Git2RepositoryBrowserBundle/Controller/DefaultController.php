@@ -425,7 +425,11 @@ class DefaultController extends Controller
         $struct = Diff\Parser::parse($stat);
 
         $commit = $repo->lookup($commit_id);
-        return $this->render('ChobieGit2RepositoryBrowserBundle:Default:commit.html.twig', array(
+        $template = (isset($_REQUEST['_pjax'])) ?
+            'ChobieGit2RepositoryBrowserBundle:Default:pjax.commit.html.twig':
+            'ChobieGit2RepositoryBrowserBundle:Default:commit.html.twig';
+
+        return $this->render($template, array(
             'repository_name' => $repository_name,
             'commit' => $commit,
             'diff' => $struct,
